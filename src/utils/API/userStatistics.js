@@ -25,7 +25,7 @@ export function getUserTopArtists() {
 export function getUserRecomendations() {
   return request(
     {
-      url: 'https://api.spotify.com/v1/recommendations',
+      url: `https://api.spotify.com/v1/recommendations?seed_genres=alternative`,
       method: 'GET',
     },
     'application/json',

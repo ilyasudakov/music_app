@@ -83,9 +83,7 @@ const MainPage = (props) => {
           recomendations: {
             ...pagesNew['recomendations'],
             isLoading: false,
-            data: {
-              ...res,
-            },
+            data: [...res.tracks],
             loadedData: true,
           },
         })
@@ -116,9 +114,7 @@ const MainPage = (props) => {
     recomendations: {
       active: false,
       isLoading: false,
-      data: {
-        items: [],
-      },
+      data: [],
       loadedData: false,
       loadFunction: (pagesNew) => loadUserRecomendations(pagesNew),
     },
@@ -334,7 +330,7 @@ const RecomendationsListComponent = (props) => {
         props.isHidden ? 'main-page__list--hidden' : ''
       }`}
     >
-      {props.topItems.items.map((item, index) => (
+      {props.topItems.map((item, index) => (
         <div className="main-page__list-item" key={index}>
           <a href={item.album.href}>
             <img
