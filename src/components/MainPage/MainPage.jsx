@@ -8,7 +8,7 @@ import {
 
 import accountIcon from '../../assets/account.svg'
 import signOutIcon from '../../assets/sign-out.svg'
-import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
+// import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
 
 const EMPTY_ARRAY = Array[20]
 
@@ -226,7 +226,7 @@ const MainPage = (props) => {
         </div>
         <TopSongsListComponent
           topItems={pages['top-songs'].data}
-          isLoading={!pages['top-songs'].isLoading}
+          isLoading={pages['top-songs'].isLoading}
           isHidden={!pages['top-songs'].active}
           loadedData={pages['top-songs'].loadedData}
           // loadedData={false}
@@ -296,12 +296,16 @@ const TopSongsListComponent = (props) => {
         >
           <div className="main-page__position">{`${index + 1}.`}</div>
           <a href={props.loadedData ? item.album.href : '/'}>
-            <img
-              className="main-page__img"
-              src={props.loadedData ? item.album.images[2].url : ''}
-              alt=""
-              loading="lazy"
-            />
+            {props.isLoading ? (
+              <div className="main-page__img main-page__img--placeholder"></div>
+            ) : (
+              <img
+                className="main-page__img"
+                src={props.loadedData ? item.album.images[2].url : ''}
+                alt=""
+                loading="lazy"
+              />
+            )}
           </a>
           <div className="main-page__song-info">
             <a href={props.loadedData ? item.href : '/'}>
@@ -334,12 +338,16 @@ const TopArtistsListComponent = (props) => {
         >
           <div className="main-page__position">{`${index + 1}.`}</div>
           <a href={props.loadedData ? item.href : '/'}>
-            <img
-              className="main-page__img"
-              src={props.loadedData ? item.images[2].url : ''}
-              alt=""
-              loading="lazy"
-            />
+            {props.isLoading ? (
+              <div className="main-page__img main-page__img--placeholder"></div>
+            ) : (
+              <img
+                className="main-page__img"
+                src={props.loadedData ? item.images[2].url : ''}
+                alt=""
+                loading="lazy"
+              />
+            )}
           </a>
           <div className="main-page__song-info">
             <a href={props.loadedData ? item.href : ''}>
@@ -368,12 +376,16 @@ const RecomendationsListComponent = (props) => {
           key={index}
         >
           <a href={props.loadedData ? item.album.href : ''}>
-            <img
-              className="main-page__img"
-              src={props.loadedData ? item.album.images[2].url : ''}
-              alt=""
-              loading="lazy"
-            />
+            {props.isLoading ? (
+              <div className="main-page__img main-page__img--placeholder"></div>
+            ) : (
+              <img
+                className="main-page__img"
+                src={props.loadedData ? item.album.images[2].url : ''}
+                alt=""
+                loading="lazy"
+              />
+            )}
           </a>
           <div className="main-page__song-info">
             <a href={props.loadedData ? item.href : ''}>
