@@ -469,6 +469,14 @@
                     }
                 }
 
+                &__username {
+                    display: none;
+                }
+
+                .header__img--avatar {
+                    margin-right: 5px;
+                }
+
                 .header__player {
                     padding: 5px 10px;
 
@@ -480,10 +488,10 @@
                     }
                     .header__song-info {
                         .header__song {
-                            font-size: 0.8rem;
+                            font-size: 1rem;
                         }
                         .header__artist {
-                            font-size: 0.6rem;
+                            font-size: 0.7rem;
                             // display: none;
                         }
                     }
@@ -505,11 +513,22 @@
         & {
             .header {
                 .header__player {
-                    padding: 5px 10px;
-                }
+                    padding: 7.5px 10px;
 
-                &__username {
-                    display: none;
+                    .header__song-info {
+                        .header__song {
+                            max-width: 130px;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                        .header__artist {
+                            max-width: 130px;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                    }
                 }
 
                 .header__img--avatar {
@@ -519,6 +538,22 @@
 
                 &__button {
                     margin-left: auto;
+                }
+            }
+
+            .main-page__content {
+                .main-page__list {
+                    .main-page__list-item {
+                        .main-page__song-info {
+                            max-width: calc(100% - 25px - 60px - 30px);
+                            a {
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                max-width: calc(100% - 0px);
+                            }
+                        }
+                    }
                 }
             }
         }
