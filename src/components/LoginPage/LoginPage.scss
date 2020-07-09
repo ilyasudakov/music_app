@@ -28,6 +28,10 @@
     }
 
     &__button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
         background-color: #1db954;
         padding: 15px 25px;
         border-radius: 25px;
@@ -36,8 +40,9 @@
         text-transform: uppercase;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
         & {
+            background: linear-gradient(180deg, rgba(253, 119, 132, 1) 30%, rgba(255, 191, 99, 1) 85%);
             font-size: 90%;
 
             .login-page__title {
