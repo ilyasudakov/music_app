@@ -323,6 +323,11 @@
             border-radius: 10px;
             cursor: pointer;
             text-decoration: none;
+            transition: 200ms ease-in-out;
+
+            &:hover {
+                background-color: rgba($color: #000000, $alpha: 0.3);
+            }
 
             .header__play-button {
                 border-top: 10px solid transparent;
@@ -345,6 +350,46 @@
                 .header__artist {
                     font-size: 0.7rem;
                     color: #bbbbbb;
+                }
+            }
+        }
+
+        .header__player--placeholder {
+            .header__img--placeholder {
+                width: 35px;
+                max-width: 35px;
+                min-height: 30px;
+                animation: pulse 1s infinite ease-in-out;
+                border-radius: 5px;
+            }
+
+            .header__song-info {
+                width: 100px;
+                .header__song {
+                    width: 100%;
+                    height: 1rem;
+                    animation: pulse 1s infinite ease-in-out;
+                    margin-bottom: 5px;
+                    border-radius: 5px;
+                }
+
+                .header__artist {
+                    width: 100%;
+                    height: 0.8rem;
+                    animation: pulse 1s infinite ease-in-out;
+                    border-radius: 5px;
+                }
+            }
+
+            @keyframes pulse {
+                0% {
+                    background-color: rgba(165, 165, 165, 0.1);
+                }
+                50% {
+                    background-color: rgba(165, 165, 165, 0.3);
+                }
+                100% {
+                    background-color: rgba(165, 165, 165, 0.1);
                 }
             }
         }

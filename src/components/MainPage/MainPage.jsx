@@ -324,7 +324,9 @@ const Header = (props) => {
         <img className="header__img header__logo" src={spotifyIcon} alt="" />
       </a>
       <a
-        className="header__player"
+        className={`header__player ${
+          !props.nowPlaying.isLoaded ? 'header__player--placeholder' : ''
+        }`}
         href={
           props.nowPlaying.data.items !== undefined
             ? props.nowPlaying.data.items[0].track.external_urls.spotify
@@ -334,15 +336,19 @@ const Header = (props) => {
         rel="noopener noreferrer"
       >
         <div className="header__play-button"></div>
-        <img
-          className="header__img header__img--player"
-          src={
-            props.nowPlaying.data.items !== undefined
-              ? props.nowPlaying.data.items[0].track.album.images[2].url
-              : ''
-          }
-          alt=""
-        />
+        {!props.nowPlaying.isLoaded ? (
+          <div className="header__img header__img--placeholder"></div>
+        ) : (
+          <img
+            className="header__img header__img--player"
+            src={
+              props.nowPlaying.data.items !== undefined
+                ? props.nowPlaying.data.items[0].track.album.images[2].url
+                : ''
+            }
+            alt=""
+          />
+        )}
         <div className="header__song-info">
           <div className="header__song">
             {props.nowPlaying.data.items !== undefined
