@@ -10,9 +10,14 @@ const LoginPage = (props) => {
 
   return (
     <div className="login-page">
-      <div className="login-page__title">Для начала, авторизуйтесь</div>
+      <div className="login-page__title">
+        Авторизуйтесь для просмотра статистики.
+      </div>
+      <div className="login-page__title login-page__title__small">
+        Топы песен, исполнителей и список рекомендаций.
+      </div>
       <Link className="login-page__button" to="/spotify-redirect">
-        Вход в аккаунт Spotify
+        Вход в Spotify
       </Link>
     </div>
   )

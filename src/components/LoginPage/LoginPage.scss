@@ -1,5 +1,51 @@
-@import '../../utils/variables.scss';
+@import "../../utils/variables.scss";
 
 .login-page {
-    
+    width: 100%;
+    height: 100vh;
+    background: url("../../assets/bg1.png") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 100%;
+
+    &__title {
+        margin-bottom: 25px;
+        color: #ffffff;
+        font-size: 200%;
+        width: 100%;
+        text-align: center;
+        max-width: 80%;
+
+        &__small {
+            font-size: 100%;
+        }
+    }
+
+    &__button {
+        background-color: #1db954;
+        padding: 15px 25px;
+        border-radius: 25px;
+        color: #ffffff;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+        & {
+            font-size: 90%;
+
+            .login-page__title {
+                font-size: 160%;
+                max-width: 90%;
+                margin-bottom: 20px;
+
+                &__small {
+                    font-size: 100%;
+                }
+            }
+        }
+    }
 }
