@@ -61,14 +61,13 @@ const App = () => {
           refreshTokens(localStorage.getItem('refreshToken'))
             .then((res) => res.json())
             .then((res) => {
+              setUserLoaded(true)
               setUserData({
                 ...userData,
                 isAuthorized: true,
                 accessToken: res.access_token,
-                refreshToken: res.refresh_token,
               })
               localStorage.setItem('accessToken', res.access_token)
-              localStorage.setItem('refreshToken', res.refresh_token)
             })
             .catch((error) => {
               console.log(error)

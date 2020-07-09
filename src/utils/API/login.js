@@ -59,6 +59,6 @@ export function refreshTokens(refreshToken, accessToken) {
       // }),
     },
     'application/x-www-form-urlencoded',
-    `Basic ${accessToken}`,
+    // `Basic ${accessToken}`,
   )
 }

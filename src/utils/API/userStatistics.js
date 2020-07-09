@@ -21,3 +21,14 @@ export function getUserTopArtists() {
     `Bearer ${localStorage.getItem('accessToken')}`,
   )
 }
+
+export function getUserRecomendations() {
+  return request(
+    {
+      url: 'https://api.spotify.com/v1/recommendations',
+      method: 'GET',
+    },
+    'application/json',
+    `Bearer ${localStorage.getItem('accessToken')}`,
+  )
+}
