@@ -446,7 +446,7 @@ const TopSongsListComponent = (props) => {
         </div>
       ))}
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
-      {props.topItems.items.length < 60 && (
+      {props.topItems.items.length < 60 ? (
         <button
           className="main-page__button"
           onClick={(event) => {
@@ -456,6 +456,8 @@ const TopSongsListComponent = (props) => {
         >
           <span>Загрузить еще</span>
         </button>
+      ) : (
+        <div className="main-page__info-text">Максимум 60 записей</div>
       )}
     </div>
   )
@@ -504,7 +506,7 @@ const TopArtistsListComponent = (props) => {
         </div>
       ))}
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
-      {props.topItems.items.length < 60 && (
+      {props.topItems.items.length < 60 ? (
         <button
           className="main-page__button"
           onClick={(event) => {
@@ -514,6 +516,8 @@ const TopArtistsListComponent = (props) => {
         >
           <span>Загрузить еще</span>
         </button>
+      ) : (
+        <div className="main-page__info-text">Максимум 60 записей</div>
       )}
     </div>
   )
