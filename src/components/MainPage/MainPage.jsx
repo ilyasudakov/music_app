@@ -10,10 +10,10 @@ import accountIcon from '../../assets/account.svg'
 import signOutIcon from '../../assets/sign-out.svg'
 // import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
 
-const EMPTY_ARRAY = Array[20]
+const EMPTY_ARRAY = new Array(20)
 
 const MainPage = (props) => {
-  const loadTopSongs = (pagesNew) => {
+  const loadTopSongs = (pagesNew, offset) => {
     setPages({
       ...pagesNew,
       'top-songs': {
@@ -21,7 +21,7 @@ const MainPage = (props) => {
         isLoading: true,
       },
     })
-    getUserTopAlbums()
+    getUserTopAlbums(offset)
       .then((res) => res.json())
       .then((res) => {
         setPages({
@@ -31,7 +31,9 @@ const MainPage = (props) => {
             isLoading: false,
             data: {
               ...res,
+              items: [...pagesNew['top-songs'].data.items, ...res.items],
             },
+            // offset: pagesNew['top-songs'].offset + 20,
             loadedData: true,
           },
         })
@@ -41,7 +43,7 @@ const MainPage = (props) => {
       })
   }
 
-  const loadTopArtists = (pagesNew) => {
+  const loadTopArtists = (pagesNew, offset) => {
     setPages({
       ...pagesNew,
       'top-artists': {
@@ -49,7 +51,7 @@ const MainPage = (props) => {
         isLoading: true,
       },
     })
-    getUserTopArtists()
+    getUserTopArtists(offset)
       .then((res) => res.json())
       .then((res) => {
         setPages({
@@ -59,7 +61,9 @@ const MainPage = (props) => {
             isLoading: false,
             data: {
               ...res,
+              items: [...pagesNew['top-artists'].data.items, ...res.items],
             },
+            // offset: pagesNew['top-artists'].offset + 20,
             loadedData: true,
           },
         })
@@ -69,7 +73,7 @@ const MainPage = (props) => {
       })
   }
 
-  const loadUserRecomendations = (pagesNew) => {
+  const loadUserRecomendations = (pagesNew, offset) => {
     setPages({
       ...pagesNew,
       recomendations: {
@@ -77,7 +81,7 @@ const MainPage = (props) => {
         isLoading: true,
       },
     })
-    getUserRecomendations()
+    getUserRecomendations(offset)
       .then((res) => res.json())
       .then((res) => {
         setPages({
@@ -85,7 +89,8 @@ const MainPage = (props) => {
           recomendations: {
             ...pagesNew['recomendations'],
             isLoading: false,
-            data: [...res.tracks],
+            data: [...pagesNew['recomendations'].data, ...res.tracks],
+            // offset: pagesNew['recomendations'].offset + 20,
             loadedData: true,
           },
         })
@@ -99,26 +104,30 @@ const MainPage = (props) => {
       active: true,
       isLoading: false,
       data: {
-        items: [EMPTY_ARRAY],
+        items: [],
       },
       loadedData: false,
-      loadFunction: (pagesNew) => loadTopSongs(pagesNew),
+      offset: 0,
+      loadFunction: (pagesNew, offset) => loadTopSongs(pagesNew, offset),
     },
     'top-artists': {
       active: false,
       isLoading: false,
       data: {
-        items: [EMPTY_ARRAY],
+        items: [],
       },
       loadedData: false,
-      loadFunction: (pagesNew) => loadTopArtists(pagesNew),
+      offset: 0,
+      loadFunction: (pagesNew, offset) => loadTopArtists(pagesNew, offset),
     },
     recomendations: {
       active: false,
       isLoading: false,
-      data: [EMPTY_ARRAY],
+      data: [],
       loadedData: false,
-      loadFunction: (pagesNew) => loadUserRecomendations(pagesNew),
+      offset: 0,
+      loadFunction: (pagesNew, offset) =>
+        loadUserRecomendations(pagesNew, offset),
     },
   })
 
@@ -128,11 +137,23 @@ const MainPage = (props) => {
         return null
       }
       if (page[1].active && !page[1].loadedData && !page[1].isLoading) {
-        page[1].loadFunction(pages)
+        page[1].loadFunction(pages, page[1].offset)
       }
       return null
     })
+    console.log(pages)
   }, [props.userLoaded, pages])
+
+  const handleLoadMoreItems = (name) => {
+    setPages({
+      ...pages,
+      [name]: {
+        ...pages[name],
+        offset: pages[name].offset + 20,
+        loadedData: false,
+      },
+    })
+  }
 
   return (
     <div className="main-page">
@@ -228,14 +249,19 @@ const MainPage = (props) => {
           topItems={pages['top-songs'].data}
           isLoading={pages['top-songs'].isLoading}
           isHidden={!pages['top-songs'].active}
+          handleLoadMoreItems={handleLoadMoreItems}
           loadedData={pages['top-songs'].loadedData}
+          offset={pages['top-songs'].offset}
           // loadedData={false}
+          // offset={0}
         />
         <TopArtistsListComponent
           topItems={pages['top-artists'].data}
           isLoading={pages['top-artists'].isLoading}
           isHidden={!pages['top-artists'].active}
           loadedData={pages['top-artists'].loadedData}
+          handleLoadMoreItems={handleLoadMoreItems}
+          offset={pages['top-artists'].offset}
           // loadedData={false}
         />
         <RecomendationsListComponent
@@ -243,6 +269,8 @@ const MainPage = (props) => {
           isLoading={pages['recomendations'].isLoading}
           isHidden={!pages['recomendations'].active}
           loadedData={pages['recomendations'].loadedData}
+          handleLoadMoreItems={handleLoadMoreItems}
+          offset={pages['recomendations'].offset}
           // loadedData={false}
         />
       </div>
@@ -290,7 +318,9 @@ const TopSongsListComponent = (props) => {
       {props.topItems.items.map((item, index) => (
         <div
           className={`main-page__list-item ${
-            !props.loadedData ? 'main-page__list-item--placeholder' : ''
+            !props.loadedData && props.offset + 20 > index
+              ? 'main-page__list-item--placeholder'
+              : ''
           }`}
           key={index}
         >
@@ -318,14 +348,17 @@ const TopSongsListComponent = (props) => {
         </div>
       ))}
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
-      <button
-        className="main-page__button"
-        onClick={(event) => {
-          event.preventDefault()
-        }}
-      >
-        <span>Загрузить еще</span>
-      </button>
+      {props.topItems.items.length < 60 && (
+        <button
+          className="main-page__button"
+          onClick={(event) => {
+            event.preventDefault()
+            props.handleLoadMoreItems('top-songs')
+          }}
+        >
+          <span>Загрузить еще</span>
+        </button>
+      )}
     </div>
   )
 }
@@ -365,14 +398,17 @@ const TopArtistsListComponent = (props) => {
         </div>
       ))}
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
-      <button
-        className="main-page__button"
-        onClick={(event) => {
-          event.preventDefault()
-        }}
-      >
-        <span>Загрузить еще</span>
-      </button>
+      {props.topItems.items.length < 60 && (
+        <button
+          className="main-page__button"
+          onClick={(event) => {
+            event.preventDefault()
+            props.handleLoadMoreItems('top-artists')
+          }}
+        >
+          <span>Загрузить еще</span>
+        </button>
+      )}
     </div>
   )
 }
@@ -417,6 +453,7 @@ const RecomendationsListComponent = (props) => {
         className="main-page__button"
         onClick={(event) => {
           event.preventDefault()
+          props.handleLoadMoreItems('recomendations')
         }}
       >
         <span>Загрузить еще</span>
