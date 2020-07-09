@@ -58,6 +58,7 @@ const App = () => {
           })
         })
         .catch((error) => {
+          setUserLoaded(false)
           refreshTokens(localStorage.getItem('refreshToken'))
             .then((res) => res.json())
             .then((res) => {

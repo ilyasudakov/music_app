@@ -4,7 +4,7 @@ url.URLSearchParams = URLSearchParams
 
 export const redirectLinkToSpotifyLogin = () => {
   const scope =
-    'user-read-private user-read-email user-read-playback-state user-top-read'
+    'user-read-private user-read-email user-read-playback-state user-top-read user-read-currently-playing user-read-recently-played'
 
   return `https://accounts.spotify.com/authorize?response_type=code&client_id=${
     process.env.REACT_APP_SPOTIFY_CLIENT_ID

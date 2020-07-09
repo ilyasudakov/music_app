@@ -6,13 +6,21 @@ import {
   getUserTopArtists,
 } from '../../utils/API/userStatistics'
 
+import { getUserPlayingNow } from '../../utils/API/userProfile'
+
 import accountIcon from '../../assets/account.svg'
 import signOutIcon from '../../assets/sign-out.svg'
+import spotifyIcon from '../../assets/spotify_logo.png'
 // import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
 
 const EMPTY_ARRAY = new Array(20)
 
 const MainPage = (props) => {
+  const [nowPlaying, setNowPlaying] = useState({
+    isLoaded: false,
+    isLoading: false,
+    data: {},
+  })
   const loadTopSongs = (pagesNew, offset) => {
     setPages({
       ...pagesNew,
@@ -132,6 +140,26 @@ const MainPage = (props) => {
   })
 
   useEffect(() => {
+    const getNowPlaying = () => {
+      setNowPlaying({
+        ...nowPlaying,
+        isLoading: true,
+      })
+      getUserPlayingNow(localStorage.getItem('accessToken'))
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res)
+          setNowPlaying({
+            isLoaded: true,
+            isLoading: false,
+            data: { ...res },
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
     Object.entries(pages).map((page) => {
       if (!props.userLoaded) {
         return null
@@ -142,6 +170,10 @@ const MainPage = (props) => {
       return null
     })
     console.log(pages)
+
+    if (props.userLoaded && !nowPlaying.isLoaded && !nowPlaying.isLoading) {
+      getNowPlaying()
+    }
   }, [props.userLoaded, pages])
 
   const handleLoadMoreItems = (name) => {
@@ -157,7 +189,7 @@ const MainPage = (props) => {
 
   return (
     <div className="main-page">
-      <Header {...props} />
+      <Header {...props} nowPlaying={nowPlaying} />
       <div className="main-page__content">
         <div className="main-page__menu">
           <div
@@ -283,6 +315,43 @@ export default MainPage
 const Header = (props) => {
   return (
     <header className="header">
+      <a href="https://spotify.com" target="_blank" rel="noopener noreferrer">
+        <img className="header__img header__logo" src={spotifyIcon} alt="" />
+      </a>
+      <a
+        className="header__player"
+        href={
+          props.nowPlaying.data.items !== undefined
+            ? props.nowPlaying.data.items[0].track.external_urls.spotify
+            : ''
+        }
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div className="header__play-button"></div>
+        <img
+          className="header__img header__img--player"
+          src={
+            props.nowPlaying.data.items !== undefined
+              ? props.nowPlaying.data.items[0].track.album.images[2].url
+              : ''
+          }
+          alt=""
+        />
+        <div className="header__song-info">
+          <div className="header__song">
+            {props.nowPlaying.data.items !== undefined
+              ? props.nowPlaying.data.items[0].track.name
+              : ''}
+          </div>
+          <div className="header__artist">
+            {props.nowPlaying.data.items !== undefined
+              ? props.nowPlaying.data.items[0].track.artists[0].name
+              : ''}
+          </div>
+        </div>
+      </a>
+      <span className="header__username">{props.userData?.display_name}</span>
       <img
         className="header__img header__img--avatar"
         src={
@@ -292,7 +361,6 @@ const Header = (props) => {
         }
         alt=""
       />
-      <span className="header__username">{props.userData?.display_name}</span>
       {/* <span className="header__email">{props.userData.email}</span> */}
       <button
         className="header__button"
@@ -325,7 +393,11 @@ const TopSongsListComponent = (props) => {
           key={index}
         >
           <div className="main-page__position">{`${index + 1}.`}</div>
-          <a href={props.loadedData ? item.album.href : '/'}>
+          <a
+            href={props.loadedData ? item.external_urls.spotify : '/'}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.isLoading ? (
               <div className="main-page__img main-page__img--placeholder"></div>
             ) : (
@@ -338,10 +410,20 @@ const TopSongsListComponent = (props) => {
             )}
           </a>
           <div className="main-page__song-info">
-            <a href={props.loadedData ? item.href : '/'}>
+            <a
+              href={props.loadedData ? item.external_urls.spotify : '/'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {props.loadedData ? item.name : ''}
             </a>
-            <a href={props.loadedData ? item.artists[0].href : '/'}>
+            <a
+              href={
+                props.loadedData ? item.artists[0].external_urls.spotify : '/'
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {props.loadedData ? item.artists[0].name : ''}
             </a>
           </div>
@@ -378,7 +460,11 @@ const TopArtistsListComponent = (props) => {
           key={index}
         >
           <div className="main-page__position">{`${index + 1}.`}</div>
-          <a href={props.loadedData ? item.href : '/'}>
+          <a
+            href={props.loadedData ? item.external_urls.spotify : '/'}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.isLoading ? (
               <div className="main-page__img main-page__img--placeholder"></div>
             ) : (
@@ -391,7 +477,11 @@ const TopArtistsListComponent = (props) => {
             )}
           </a>
           <div className="main-page__song-info">
-            <a href={props.loadedData ? item.href : ''}>
+            <a
+              href={props.loadedData ? item.external_urls.spotify : ''}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {props.loadedData ? item.name : ''}
             </a>
           </div>
@@ -427,7 +517,11 @@ const RecomendationsListComponent = (props) => {
           }`}
           key={index}
         >
-          <a href={props.loadedData ? item.album.href : ''}>
+          <a
+            href={props.loadedData ? item.album.external_urls.spotify : ''}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.isLoading ? (
               <div className="main-page__img main-page__img--placeholder"></div>
             ) : (
@@ -440,10 +534,20 @@ const RecomendationsListComponent = (props) => {
             )}
           </a>
           <div className="main-page__song-info">
-            <a href={props.loadedData ? item.href : ''}>
+            <a
+              href={props.loadedData ? item.external_urls.spotify : ''}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {props.loadedData ? item.name : ''}
             </a>
-            <a href={props.loadedData ? item.artists[0].href : ''}>
+            <a
+              href={
+                props.loadedData ? item.artists[0].external_urls.spotify : ''
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {props.loadedData ? item.artists[0].name : ''}
             </a>
           </div>
