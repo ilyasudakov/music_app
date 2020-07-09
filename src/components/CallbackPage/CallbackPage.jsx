@@ -12,7 +12,7 @@ const CallbackPage = (props) => {
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }, [props])
 
   return <div></div>
 }

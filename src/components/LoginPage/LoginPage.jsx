@@ -3,10 +3,10 @@ import './LoginPage.scss'
 import { Link } from 'react-router-dom'
 
 const LoginPage = (props) => {
-  const handleLogin = (event) => {
-    event.preventDefault()
-    console.log('logging in')
-  }
+  // const handleLogin = (event) => {
+  //   event.preventDefault()
+  //   console.log('logging in')
+  // }
 
   return (
     <div className="login-page">

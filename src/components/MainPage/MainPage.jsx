@@ -13,7 +13,7 @@ import signOutIcon from '../../assets/sign-out.svg'
 import spotifyIcon from '../../assets/spotify_logo.png'
 // import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
 
-const EMPTY_ARRAY = new Array(20)
+// const EMPTY_ARRAY = new Array(20)
 
 const MainPage = (props) => {
   const [nowPlaying, setNowPlaying] = useState({
@@ -174,7 +174,7 @@ const MainPage = (props) => {
     if (props.userLoaded && !nowPlaying.isLoaded && !nowPlaying.isLoading) {
       getNowPlaying()
     }
-  }, [props.userLoaded, pages])
+  }, [props.userLoaded, pages, nowPlaying])
 
   const handleLoadMoreItems = (name) => {
     setPages({
@@ -313,6 +313,11 @@ const MainPage = (props) => {
 export default MainPage
 
 const Header = (props) => {
+  const userTypes = {
+    open: 'бесплатный',
+    free: 'бесплатный',
+    premium: 'премиум',
+  }
   return (
     <header className="header">
       <a href="https://spotify.com" target="_blank" rel="noopener noreferrer">
@@ -351,7 +356,12 @@ const Header = (props) => {
           </div>
         </div>
       </a>
-      <span className="header__username">{props.userData?.display_name}</span>
+      <div className="header__user-info">
+        <span className="header__username">{props.userData?.display_name}</span>
+        <span className="header__user-type">
+          {`${userTypes[props.userData?.product]} аккаунт`}
+        </span>
+      </div>
       <img
         className="header__img header__img--avatar"
         src={
