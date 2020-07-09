@@ -34,6 +34,7 @@
     &__content {
         padding: 15px 25px;
         width: calc(100% - 50px);
+        color: #bbbbbb;
 
         .main-page__menu {
             width: 100%;
@@ -55,12 +56,13 @@
                 // margin-bottom: 10px;
 
                 &:hover {
-                    border-bottom-color: #eeeeee;
+                    border-bottom-color: #777777;
                 }
 
                 &--active {
                     // color: #1db954;
-                    color: #000000;
+                    // color: #000000;
+                    color: #bbbbbb;
                     // font-weight: bold;
                     border-bottom: 3px solid #1db954;
 
@@ -117,11 +119,12 @@
                         text-decoration: none;
                         &:first-child {
                             font-size: 110%;
-                            color: #000000;
+                            // color: #000000;
+                            color: #bbbbbb;
                         }
                         &:last-child {
                             font-size: 90%;
-                            color: #777777;
+                            color: #888888;
                         }
 
                         &:hover {
@@ -149,7 +152,7 @@
                         a {
                             &:first-child {
                                 font-size: 110%;
-                                color: #000000;
+                                color: #bbbbbb;
                             }
                         }
                     }
@@ -221,8 +224,10 @@
         position: sticky;
         top: 0;
         height: 40px;
-        background-color: #ffffff;
-        box-shadow: 0 2px 3px rgba(57, 63, 72, 0.3);
+        // background-color: #ffffff;
+        // box-shadow: 0 2px 3px rgba(169, 189, 218, 0.3);
+        background-color: #444444;
+        color: #bbbbbb;
         // overflow: hidden;
 
         &__img {
@@ -234,13 +239,15 @@
             &--avatar {
                 width: 40px;
                 max-width: 40px;
+                filter: brightness(2);
             }
         }
 
         &__button {
             margin-left: auto;
-            border: 1px solid #cccccc;
-            background-color: #ffffff;
+            border: 1px solid #555555;
+            // background-color: #ffffff;
+            background-color: rgba($color: #000000, $alpha: 0.2);
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
@@ -256,11 +263,13 @@
             .header__img {
                 max-width: 25px;
                 margin-right: 15px;
+                filter: brightness(2);
             }
 
             span {
                 // max-width: 0;
                 transition: 200ms ease-in-out;
+                color: #bbbbbb;
             }
 
             &:hover {
