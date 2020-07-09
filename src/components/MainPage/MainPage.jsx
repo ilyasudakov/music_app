@@ -10,6 +10,8 @@ import accountIcon from '../../assets/account.svg'
 import signOutIcon from '../../assets/sign-out.svg'
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator'
 
+const EMPTY_ARRAY = Array[20]
+
 const MainPage = (props) => {
   const loadTopSongs = (pagesNew) => {
     setPages({
@@ -97,7 +99,7 @@ const MainPage = (props) => {
       active: true,
       isLoading: false,
       data: {
-        items: [],
+        items: [EMPTY_ARRAY],
       },
       loadedData: false,
       loadFunction: (pagesNew) => loadTopSongs(pagesNew),
@@ -106,7 +108,7 @@ const MainPage = (props) => {
       active: false,
       isLoading: false,
       data: {
-        items: [],
+        items: [EMPTY_ARRAY],
       },
       loadedData: false,
       loadFunction: (pagesNew) => loadTopArtists(pagesNew),
@@ -114,7 +116,7 @@ const MainPage = (props) => {
     recomendations: {
       active: false,
       isLoading: false,
-      data: [],
+      data: [EMPTY_ARRAY],
       loadedData: false,
       loadFunction: (pagesNew) => loadUserRecomendations(pagesNew),
     },
@@ -224,18 +226,24 @@ const MainPage = (props) => {
         </div>
         <TopSongsListComponent
           topItems={pages['top-songs'].data}
-          isLoading={pages['top-songs'].isLoading}
+          isLoading={!pages['top-songs'].isLoading}
           isHidden={!pages['top-songs'].active}
+          loadedData={pages['top-songs'].loadedData}
+          // loadedData={false}
         />
         <TopArtistsListComponent
           topItems={pages['top-artists'].data}
           isLoading={pages['top-artists'].isLoading}
           isHidden={!pages['top-artists'].active}
+          loadedData={pages['top-artists'].loadedData}
+          // loadedData={false}
         />
         <RecomendationsListComponent
           topItems={pages['recomendations'].data}
           isLoading={pages['recomendations'].isLoading}
           isHidden={!pages['recomendations'].active}
+          loadedData={pages['recomendations'].loadedData}
+          // loadedData={false}
         />
       </div>
     </div>
@@ -280,22 +288,32 @@ const TopSongsListComponent = (props) => {
       }`}
     >
       {props.topItems.items.map((item, index) => (
-        <div className="main-page__list-item" key={index}>
+        <div
+          className={`main-page__list-item ${
+            !props.loadedData ? 'main-page__list-item--placeholder' : ''
+          }`}
+          key={index}
+        >
           <div className="main-page__position">{`${index + 1}.`}</div>
-          <a href={item.album.href}>
+          <a href={props.loadedData ? item.album.href : '/'}>
             <img
               className="main-page__img"
-              src={item.album.images[2].url}
+              src={props.loadedData ? item.album.images[2].url : ''}
               alt=""
+              loading="lazy"
             />
           </a>
           <div className="main-page__song-info">
-            <a href={item.href}>{item.name}</a>
-            <a href={item.artists[0].href}>{item.artists[0].name}</a>
+            <a href={props.loadedData ? item.href : '/'}>
+              {props.loadedData ? item.name : ''}
+            </a>
+            <a href={props.loadedData ? item.artists[0].href : '/'}>
+              {props.loadedData ? item.artists[0].name : ''}
+            </a>
           </div>
         </div>
       ))}
-      <LoadingIndicator isLoading={props.isLoading} />
+      {/* <LoadingIndicator isLoading={props.isLoading} /> */}
     </div>
   )
 }
@@ -308,17 +326,29 @@ const TopArtistsListComponent = (props) => {
       }`}
     >
       {props.topItems.items.map((item, index) => (
-        <div className="main-page__list-item" key={index}>
+        <div
+          className={`main-page__list-item ${
+            !props.loadedData ? 'main-page__list-item--placeholder' : ''
+          }`}
+          key={index}
+        >
           <div className="main-page__position">{`${index + 1}.`}</div>
-          <a href={item.href}>
-            <img className="main-page__img" src={item.images[2].url} alt="" />
+          <a href={props.loadedData ? item.href : '/'}>
+            <img
+              className="main-page__img"
+              src={props.loadedData ? item.images[2].url : ''}
+              alt=""
+              loading="lazy"
+            />
           </a>
           <div className="main-page__song-info">
-            <a href={item.href}>{item.name}</a>
+            <a href={props.loadedData ? item.href : ''}>
+              {props.loadedData ? item.name : ''}
+            </a>
           </div>
         </div>
       ))}
-      <LoadingIndicator isLoading={props.isLoading} />
+      {/* <LoadingIndicator isLoading={props.isLoading} /> */}
     </div>
   )
 }
@@ -331,21 +361,31 @@ const RecomendationsListComponent = (props) => {
       }`}
     >
       {props.topItems.map((item, index) => (
-        <div className="main-page__list-item" key={index}>
-          <a href={item.album.href}>
+        <div
+          className={`main-page__list-item ${
+            !props.loadedData ? 'main-page__list-item--placeholder' : ''
+          }`}
+          key={index}
+        >
+          <a href={props.loadedData ? item.album.href : ''}>
             <img
               className="main-page__img"
-              src={item.album.images[2].url}
+              src={props.loadedData ? item.album.images[2].url : ''}
               alt=""
+              loading="lazy"
             />
           </a>
           <div className="main-page__song-info">
-            <a href={item.href}>{item.name}</a>
-            <a href={item.artists[0].href}>{item.artists[0].name}</a>
+            <a href={props.loadedData ? item.href : ''}>
+              {props.loadedData ? item.name : ''}
+            </a>
+            <a href={props.loadedData ? item.artists[0].href : ''}>
+              {props.loadedData ? item.artists[0].name : ''}
+            </a>
           </div>
         </div>
       ))}
-      <LoadingIndicator isLoading={props.isLoading} />
+      {/* <LoadingIndicator isLoading={props.isLoading} /> */}
     </div>
   )
 }
