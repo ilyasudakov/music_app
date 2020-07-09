@@ -318,6 +318,14 @@ const TopSongsListComponent = (props) => {
         </div>
       ))}
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
+      <button
+        className="main-page__button"
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        <span>Загрузить еще</span>
+      </button>
     </div>
   )
 }
@@ -357,6 +365,14 @@ const TopArtistsListComponent = (props) => {
         </div>
       ))}
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
+      <button
+        className="main-page__button"
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        <span>Загрузить еще</span>
+      </button>
     </div>
   )
 }
@@ -397,6 +413,14 @@ const RecomendationsListComponent = (props) => {
           </div>
         </div>
       ))}
+      <button
+        className="main-page__button"
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+      >
+        <span>Загрузить еще</span>
+      </button>
       {/* <LoadingIndicator isLoading={props.isLoading} /> */}
     </div>
   )
