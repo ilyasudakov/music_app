@@ -256,6 +256,7 @@
             }
         }
     }
+
     .header {
         --padding-lr: 10px;
         width: calc(100% - var(--padding-lr) * 2);
@@ -333,17 +334,29 @@
     }
 
     @media (max-width: 768px) {
-        .main-page {
-            &__content {
-                padding: 10px 10px;
-                width: calc(100% - 20px);
-                .main-page__menu {
-                    max-width: 100%;
-                    overflow-x: auto;
+        & {
+            .main-page {
+                &__content {
+                    padding: 10px 10px;
+                    width: calc(100% - 20px);
+                    .main-page__menu {
+                        max-width: 100%;
+                        overflow-x: auto;
 
-                    .main-page__category-name {
-                        font-size: 1rem;
-                        white-space: nowrap;
+                        .main-page__category-name {
+                            font-size: 1rem;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+            }
+
+            .header {
+                &__button {
+                    width: fit-content;
+
+                    .header__img {
+                        margin-right: 5px;
                     }
                 }
             }
