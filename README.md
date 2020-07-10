@@ -1,1 +1,1 @@
-## MusicApp
+## Spotify Statistics App
